@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Validator;
 use Image;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Photo;
 use App\User as AppUser;
@@ -64,6 +65,7 @@ class ApiController extends Controller
     public function addFilm(Request $request)
     {
         checkParams(['Name', 'Description', 'Rating', 'ReleaseDate', 'TicketPrice', 'Country',"Genre","Photo"]);
+        $film = new Films();
         if($request->has('image')){
             $files = $request->file('image');
             $ImageUpload = Image::make($files);
@@ -71,9 +73,8 @@ class ApiController extends Controller
             $time = time();
             $ImageUpload->save($originalPath.$time.$files->getClientOriginalName());
             $image = $time.$files->getClientOriginalName();
-
+            $film->Photo = $image;
         }
-        $film = new Films();
         $film->Name = $request->Name;
         $film->Description = $request->Description;
         $film->Rating = $request->Rating;
@@ -81,8 +82,7 @@ class ApiController extends Controller
         $film->TicketPrice = $request->TicketPrice;
         $film->Country = $request->Country;
         $film->Genre = $request->Genre;
-        $film->slug::slug($request->Name);
-        $film->Photo = $image;
+        $film->slug = Str::slug($request->Name);
         $film->save();
         return response()->json(['status' => 'success', 'msg' => 'film is added successfully']);
     }
