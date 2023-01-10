@@ -18,7 +18,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleSelect1">Select Genre</label>
-                            <select class="form-control" id="exampleSelect1" name="genre">
+                            <select class="form-control" id="exampleSelect1" name="genre[]" multiple>
                                 <option>Action</option>
                                 <option>Adventure</option>
                                 <option>Comedy</option>

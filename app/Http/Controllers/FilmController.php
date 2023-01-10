@@ -65,7 +65,8 @@ class FilmController extends Controller
         $film->ReleaseDate = date("Y-m-d", strtotime($request->releaseDate));
         $film->TicketPrice = $request->ticketPrice;
         $film->Country = $request->country;
-        $film->Genre = $request->genre;
+        $film->Genre = implode(",",$request->genre);
+
         $film->slug = Str::slug($request->name);
         $film->save();
         session()->flash('success', 'Films Saved Successfully');
