@@ -52,10 +52,9 @@ class ApiController extends Controller
             $users = User::where('id', $user->id)->first();
             $users['token'] =  $users->createToken('token')->plainTextToken;
             $otp = 1234;
-            // $otp=mt_rand(1000,9999);
+
             $users['otp']    = $otp;
-            // echo $users->phone;
-            // sendOTP($user->phone,("OTP ".$otp." of FoodWalay is generated on ".date('d-m-Y H:i:s')." Don't share this OTP with anyone, call 0313-8798775"));
+
             return response()->json(['status' => 'success', 'msg' => 'Successfully Login', 'data' => $users]);
         }
     }
@@ -82,6 +81,7 @@ class ApiController extends Controller
         $film->TicketPrice = $request->TicketPrice;
         $film->Country = $request->Country;
         $film->Genre = $request->Genre;
+        $film->slug::slug($request->Name);
         $film->Photo = $image;
         $film->save();
         return response()->json(['status' => 'success', 'msg' => 'film is added successfully']);
